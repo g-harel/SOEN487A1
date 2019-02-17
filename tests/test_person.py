@@ -51,7 +51,10 @@ class TestPerson(unittest.TestCase):
 
         # convert the response data from json and call the asserts
         body = json.loads(str(response.data, "utf8"))
-        self.assertDictEqual(body, {"code": 404, "msg": "Cannot find this person id."})
+        self.assertDictEqual(body, {
+            "code": 404,
+            "msg": "Cannot find this person id.",
+        })
 
     def test_put_person_without_id(self):
         # do we really need to check counts?
