@@ -55,9 +55,7 @@ class TestUser(unittest.TestCase):
 
         post_list = json.loads(str(response.data, "utf8"))
         self.assertEqual(type(post_list), list)
-        self.assertEqual(post_list[0]["id"], "1")
-        self.assertEqual(post_list[0]["user_id"], "1")
-        self.assertEqual(post_list[0]["text"], "Post1")
+        self.assertDictEqual(post_list[0], {"id": "1", "user_id": "1", "text": "Post1"})
 
     def test_get_user_likes(self):
         self.db.session.add(Post(user_id=1, text="Post1"))
@@ -69,12 +67,10 @@ class TestUser(unittest.TestCase):
 
         like_list = json.loads(str(response.data, "utf8"))
         self.assertEqual(type(like_list), list)
-        self.assertEqual(like_list[0]["id"], "1")
-        self.assertEqual(like_list[0]["user_id"], "1")
-        self.assertEqual(like_list[0]["post_id"], "1")
+        self.assertDictEqual(like_list[0], {"id": "1", "user_id": "1", "post_id": "1"})
 
-    def test_put_user_without_id(self):
-        initial_count = User.query.filter_by(name="Amy").count()
+    def test_put_user(self):
+        initial_count = User.query.count()
 
         response = self.app.put("/user/", data={"name": "Amy"})
         self.assertEqual(response.status_code, 200)
@@ -82,15 +78,5 @@ class TestUser(unittest.TestCase):
         body = json.loads(str(response.data, "utf8"))
         self.assertDictEqual(body, {"id": "3", "name": "Amy"})
 
-        updated_count = User.query.filter_by(name="Amy").count()
+        updated_count = User.query.count()
         self.assertEqual(updated_count, initial_count+1)
-
-    def test_put_user_with_new_id(self):
-        response = self.app.put("/user/", data={"id": 3, "name": "Amy"})
-        self.assertEqual(response.status_code, 200)
-
-        body = json.loads(str(response.data, "utf8"))
-        self.assertDictEqual(body, {"id": "3", "name": "Amy"})
-
-        user = User.query.filter_by(id=3).first()
-        self.assertEqual(user.name, "Amy")
