@@ -1,7 +1,7 @@
 from flask import jsonify, make_response
 
 
-def error_response(code, msg):
+def status_response(code, msg):
     return make_response(jsonify({"code": code, "msg": msg}), code)
 
 

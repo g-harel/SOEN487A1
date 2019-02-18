@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request
 import sqlalchemy
 
 from db import db
-from helpers import error_response, row_dictify
+from helpers import status_response, row_dictify
 from models.post import Post
 
 blueprint = Blueprint("post", __name__)
@@ -21,7 +21,7 @@ def get_post(post_id):
     post = Post.query.filter_by(id=post_id).first()
 
     if not post:
-        return error_response(404, "Not Found")
+        return status_response(404, "Not Found")
 
     return jsonify(row_dictify(post))
 
@@ -31,7 +31,7 @@ def get_post_likes(post_id):
     post = Post.query.filter_by(id=post_id).first()
 
     if not post:
-        return error_response(404, "Not Found")
+        return status_response(404, "Not Found")
 
     return jsonify([row_dictify(like) for like in post.likes])
 
@@ -40,11 +40,11 @@ def get_post_likes(post_id):
 def put_post():
     text = request.form.get("text")
     if not text:
-        return error_response(403, "Missing 'text'")
+        return status_response(403, "Missing 'text'")
 
     user_id = request.form.get("user_id")
     if not user_id:
-        return error_response(403, "Missing 'user_id'")
+        return status_response(403, "Missing 'user_id'")
 
     post = Post(text=text, user_id=user_id)
     db.session.add(post)
@@ -53,6 +53,6 @@ def put_post():
         db.session.commit()
     except sqlalchemy.exc.SQLAlchemyError as e:
         print(e)
-        return error_response(500, "Cannot Write")
+        return status_response(500, "Cannot Write")
 
     return jsonify(row_dictify(post))

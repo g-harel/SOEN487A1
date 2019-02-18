@@ -5,12 +5,12 @@ from sqlalchemy.engine import Engine
 from app import app
 from db import db
 from blueprints import like, post, user
-from helpers import error_response
+from helpers import status_response
 
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return error_response(404, "Not Found")
+    return status_response(404, "Not Found")
 
 
 @app.route('/')
