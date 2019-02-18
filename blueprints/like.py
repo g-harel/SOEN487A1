@@ -24,3 +24,25 @@ def get_like(like_id):
         return error_response(404, "Not Found")
 
     return jsonify(row_dictify(like))
+
+
+@blueprint.route("/", methods={"PUT"})
+def put_post():
+    post_id = request.form.get("post_id")
+    if not post_id:
+        return make_response(403, "Missing Post ID")
+
+    user_id = request.form.get("user_id")
+    if not user_id:
+        return make_response(403, "Missing User ID")
+
+    post = Like(post_id=post_id, user_id=user_id)
+    db.session.add(post)
+
+    try:
+        db.session.commit()
+    except sqlalchemy.exc.SQLAlchemyError as e:
+        print(e)
+        return error_response(500, "Cannot Write")
+
+    return jsonify(row_dictify(post))

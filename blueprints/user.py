@@ -29,7 +29,6 @@ def get_user(user_id):
 @blueprint.route("/", methods={"PUT"})
 def put_user():
     name = request.form.get("name")
-
     if not name:
         return make_response(403, "Missing Name")
 
@@ -40,6 +39,6 @@ def put_user():
         db.session.commit()
     except sqlalchemy.exc.SQLAlchemyError as e:
         print(e)
-        return error_response(404, "Cannot Write")
+        return error_response(500, "Cannot Write")
 
     return jsonify(row_dictify(user))
