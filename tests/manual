@@ -1,0 +1,16 @@
+#!/bin/sh
+
+HOST="localhost:5000"
+
+curl -X "PUT" -F "name=user1" $HOST/user/
+curl -X "PUT" -F "name=user2" $HOST/user/
+curl -X "PUT" -F "name=user3" $HOST/user/
+
+curl -X "PUT" -F "text=text1 - user1" -F "user_id=1" $HOST/post/
+curl -X "PUT" -F "text=text2 - user1" -F "user_id=1" $HOST/post/
+curl -X "PUT" -F "text=text3 - user2" -F "user_id=2" $HOST/post/
+
+curl -X "PUT" -F "post_id=1" -F "user_id=3" $HOST/like/
+curl -X "PUT" -F "post_id=2" -F "user_id=3" $HOST/like/
+curl -X "PUT" -F "post_id=3" -F "user_id=3" $HOST/like/
+curl -X "PUT" -F "post_id=3" -F "user_id=1" $HOST/like/

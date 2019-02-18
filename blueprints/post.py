@@ -26,15 +26,25 @@ def get_post(post_id):
     return jsonify(row_dictify(post))
 
 
+@blueprint.route("/<post_id>/likes")
+def get_post_likes(post_id):
+    post = Post.query.filter_by(id=post_id).first()
+
+    if not post:
+        return error_response(404, "Not Found")
+
+    return jsonify([row_dictify(like) for like in post.likes])
+
+
 @blueprint.route("/", methods={"PUT"})
 def put_post():
     text = request.form.get("text")
     if not text:
-        return make_response(403, "Missing Text")
+        return error_response(403, "Missing 'text'")
 
     user_id = request.form.get("user_id")
     if not user_id:
-        return make_response(403, "Missing User ID")
+        return error_response(403, "Missing 'user_id'")
 
     post = Post(text=text, user_id=user_id)
     db.session.add(post)

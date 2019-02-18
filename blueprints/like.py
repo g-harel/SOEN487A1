@@ -30,11 +30,11 @@ def get_like(like_id):
 def put_post():
     post_id = request.form.get("post_id")
     if not post_id:
-        return make_response(403, "Missing Post ID")
+        return error_response(403, "Missing 'post_id'")
 
     user_id = request.form.get("user_id")
     if not user_id:
-        return make_response(403, "Missing User ID")
+        return error_response(403, "Missing 'user_id'")
 
     post = Like(post_id=post_id, user_id=user_id)
     db.session.add(post)
