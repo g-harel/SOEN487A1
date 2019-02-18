@@ -70,3 +70,15 @@ class TestUser(unittest.TestCase):
 
         updated_count = Post.query.count()
         self.assertEqual(updated_count, initial_count+1)
+
+    def test_put_post_missing_text(self):
+        response = self.app.put("/post/", data={"user_id": "1"})
+
+        body = json.loads(str(response.data, "utf8"))
+        self.assertDictEqual(body, {"code": 403, "msg": "Missing 'text'"})
+
+    def test_put_post_missing_user_id(self):
+        response = self.app.put("/post/", data={"text": "Post"})
+
+        body = json.loads(str(response.data, "utf8"))
+        self.assertDictEqual(body, {"code": 403, "msg": "Missing 'user_id'"})

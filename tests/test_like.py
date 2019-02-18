@@ -68,3 +68,15 @@ class TestLike(unittest.TestCase):
 
         response = self.app.put("/like/", data={"user_id": "1", "post_id": "1"})
         self.assertEqual(response.status_code, 500)
+
+    def test_put_like_missing_post_id(self):
+        response = self.app.put("/like/", data={"user_id": "1"})
+
+        body = json.loads(str(response.data, "utf8"))
+        self.assertDictEqual(body, {"code": 403, "msg": "Missing 'post_id'"})
+
+    def test_put_like_missing_user_id(self):
+        response = self.app.put("/like/", data={"post_id": "1"})
+
+        body = json.loads(str(response.data, "utf8"))
+        self.assertDictEqual(body, {"code": 403, "msg": "Missing 'user_id'"})

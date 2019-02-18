@@ -1,30 +1,21 @@
 # [SOEN487A1](./ASSIGNMENT.md)
 
-<!--
-
-TODO
-    test missing form data
-
--->
+&nbsp;
 
 ![](./diagram.png)
 
 ## Running
 
-```
-pipenv shell
-```
-
-```
-python main.py
+```shell
+$ pipenv install
+$ pipenv shell
+$ python main.py
 ```
 
 ## Testing
 
-```
-pipenv shell
-```
-
-```
-nosetests
+```shell
+$ pipenv install
+$ pipenv shell
+$ nosetests
 ```

@@ -80,3 +80,9 @@ class TestUser(unittest.TestCase):
 
         updated_count = User.query.count()
         self.assertEqual(updated_count, initial_count+1)
+
+    def test_put_user_missing_name(self):
+        response = self.app.put("/user/", data={})
+
+        body = json.loads(str(response.data, "utf8"))
+        self.assertDictEqual(body, {"code": 403, "msg": "Missing 'name'"})
