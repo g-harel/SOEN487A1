@@ -1,6 +1,7 @@
 class Config(object):
     SQLALCHEMY_DATABASE_URI = r"sqlite:///SOEN487A1.sqlite"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    DEBUG = True
 
 
 class TestConfig(Config):
