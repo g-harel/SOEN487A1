@@ -61,3 +61,10 @@ class TestLike(unittest.TestCase):
 
         updated_count = Like.query.count()
         self.assertEqual(updated_count, initial_count+1)
+
+    def test_put_like_duplicate(self):
+        response = self.app.put("/like/", data={"user_id": "1", "post_id": "1"})
+        self.assertEqual(response.status_code, 200)
+
+        response = self.app.put("/like/", data={"user_id": "1", "post_id": "1"})
+        self.assertEqual(response.status_code, 500)

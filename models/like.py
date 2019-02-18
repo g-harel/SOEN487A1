@@ -1,3 +1,5 @@
+from sqlalchemy import UniqueConstraint
+
 from db import db
 
 
@@ -10,3 +12,5 @@ class Like(db.Model):
 
     user = db.relationship("User", back_populates="likes")
     post = db.relationship("Post", back_populates="likes")
+
+    __table_args__ = (UniqueConstraint("user_id", "post_id"),)

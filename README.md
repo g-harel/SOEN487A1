@@ -4,8 +4,6 @@
 
 TODO
     schema
-    self like
-    unique like
 
 -->
 
